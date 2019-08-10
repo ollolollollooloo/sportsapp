@@ -1,4 +1,4 @@
-import React , { Component } from 'react'
+import React, { Component } from 'react'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Container from '@material-ui/core/Container'
 import IdleTimer from 'react-idle-timer'
@@ -7,16 +7,16 @@ import IdleTimer from 'react-idle-timer'
 import { makeStyles } from '@material-ui/core/styles'
 // eslint-disable-next-line
 import {
-// eslint-disable-next-line
-    AppBar,
-// eslint-disable-next-line
-    Toolbar,
-// eslint-disable-next-line
-    IconButton,
-// eslint-disable-next-line
-    Typography,
-// eslint-disable-next-line
-    Button
+  // eslint-disable-next-line
+  AppBar,
+  // eslint-disable-next-line
+  Toolbar,
+  // eslint-disable-next-line
+  IconButton,
+  // eslint-disable-next-line
+  Typography,
+  // eslint-disable-next-line
+  Button
 } from '@material-ui/core'
 // eslint-disable-next-line
 import MenuIcon from '@material-ui/icons/Menu'
@@ -28,14 +28,14 @@ import axios from 'axios'
 import jwtDecode from 'jwt-decode'
 
 // User
-import Header from './Header' 
-import Home from './Home' 
-import Dashboard from './Dashboard' 
-import Room from './Room' 
+import Header from './Header'
+import Home from './Home'
+import Dashboard from './Dashboard'
+import Room from './Room'
 
 // Auth routes
-import SignIn from './Auth/SignIn' 
-import SignUp from './Auth/SignUp' 
+import SignIn from './Auth/SignIn'
+import SignUp from './Auth/SignUp'
 
 class Main extends Component {
   constructor(props) {
@@ -71,10 +71,10 @@ class Main extends Component {
     console.log('last active', this.idleTimer.getLastActiveTime())
   }
 
-  checkAuthorization(){
-	let url = window.location.pathname.split('/')[1].split('-').join('_')
+  checkAuthorization() {
+    let url = window.location.pathname.split('/')[1].split('-').join('_')
 
-    if(localStorage.getItem("sportsapp-token")){
+    if (localStorage.getItem("sportsapp-token")) {
       let token = localStorage.getItem("sportsapp-token")
       let decoded = jwtDecode(token)
       if (Date.now() >= decoded.exp * 1000) {
@@ -101,10 +101,10 @@ class Main extends Component {
   }
 
   render() {
-      return(
+    return (
       <div>
-      	<CssBaseline />
-  		<Container fixed>
+        <CssBaseline />
+        <Router>
           <IdleTimer
             ref={ref => { this.idleTimer = ref }}
             element={document}
@@ -113,8 +113,8 @@ class Main extends Component {
             onAction={this.onAction}
             debounce={250}
             timeout={this.state.timeout} />
-          <Router>
-            <Header isloggedin={this.state.isloggedin} />
+          <Header />
+          <Container fixed>
             <main>
               <Switch>
                 <Route path="/" exact={true} component={Home} />
@@ -124,10 +124,10 @@ class Main extends Component {
                 <Route path="/signup" exact={true} component={SignUp} />
               </Switch>
             </main>
-          </Router>
-  		</Container>
+          </Container>
+        </Router>
       </div>
-      )
+    )
   }
 }
 

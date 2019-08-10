@@ -75,13 +75,13 @@ export default function Room() {
       })
 
   }
-  
+
   return(
     <Paper className={classes.root}>
-      <h1>&nbsp;{rooms.room_name}</h1>
+      <h1>&nbsp;Basketball</h1>
       Address: {rooms.game_location_address} <br/>
-      Sport: {rooms.basketball} <br/>
-      Date: {rooms.august} <br/>
+      Sport: basketball <br/>
+      Date: August 30. 2019 <br/>
 
       <Table className={classes.table}>
         <TableHead>

@@ -1,5 +1,5 @@
-import React from 'react'
-import UseFormInput from '../../customhooks/UseFormInput'
+import React from 'react';
+import {UseFormInput} from '../../customhooks';
 import {
     Paper,
     TextField,
@@ -29,6 +29,7 @@ export default function SignIn() {
     return (
         <div>
             <Paper style={{ width: 500, margin: '24px auto', padding: 24 }}>
+                <h1>Sports App</h1>
                 <form onSubmit={handleSubmit}>
                     <TextField
                         {...username}

@@ -1,19 +1,27 @@
-import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
-import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button'
+import React, { useState, useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { UseFormInput } from '../customhooks';
+import {TableRow,TableBody, TableCell, TableHead, Paper, Table, Button, TextField, MenuItem} from '@material-ui/core';
 import Modal from '@material-ui/core/Modal'
-import UseFormInput from '../customhooks/UseFormInput'
-import {
-  TextField,
-  MenuItem
-} from '@material-ui/core'
-import axios from 'axios'
+import axios from 'axios';
+import Rooms from './Rooms';
+
+const useFetch = (url, options) => {
+  const [data, setData] = useState(null);
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchData(url, options) {
+      const response = await fetch(url, options);
+      const result = await response.json();
+      setData(result[0].rooms);
+      setLoading(false);
+    }
+    fetchData(url, options);
+  }, []);
+
+  return { data, isLoading };
+};
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -87,7 +95,7 @@ export default function Dashboard() {
 
     let domain = "https://52a7kim1n2.execute-api.us-east-1.amazonaws.com/hackathon/v1"
     let headers = {
-        "Authorization": "Bearer "+localStorage.getItem("sportsapp-token")
+      "Authorization": "Bearer " + localStorage.getItem("sportsapp-token")
     }
 
     let body = {
@@ -111,37 +119,19 @@ export default function Dashboard() {
       console.log(error.response)
     })
   }
+  const URL = "https://52a7kim1n2.execute-api.us-east-1.amazonaws.com/hackathon/v1/room";
+  const options = {
+    headers: {
+      "Authorization": "Bearer " + localStorage.getItem("sportsapp-token")
+    }
+  }
+  const rooms = useFetch(URL, options);
 
-  return(
-    <>
+  return (
+    <div style={{ marginTop: 24 }}>
+      <Rooms {...rooms} />
       <Paper className={classes.root}>
-        <h1> &nbsp; Rooms</h1>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell>Dessert (100g serving)</TableCell>
-              <TableCell align="right">Calories</TableCell>
-              <TableCell align="right">Fat&nbsp;(g)</TableCell>
-              <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-              <TableCell align="right">Protein&nbsp;(g)</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map(row => (
-              <TableRow key={row.name}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Paper>
-      <Paper className={classes.root}>
+         <h1>Sports App</h1>
         <h1> &nbsp; My Rooms <Button variant="outlined" onClick={handleOpen} className={classes.button}>Create a room</Button></h1>
 
         <Modal
@@ -229,7 +219,7 @@ export default function Dashboard() {
           </TableBody>
         </Table>
       </Paper>
-    </>
+    </div>
   )
 }
 

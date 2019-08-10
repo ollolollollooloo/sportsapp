@@ -1,11 +1,14 @@
-import React from 'react'
-import UseFormInput from '../../customhooks/UseFormInput'
+import React from 'react';
+import {
+  UseFormInput
+} from '../../customhooks';
 import {
   Paper,
   TextField,
   Button,
-  MenuItem
-} from '@material-ui/core'
+  MenuItem,
+  //LinearProgress
+} from '@material-ui/core';
 import axios from 'axios'
 
 export default function SignUp() {
@@ -33,8 +36,9 @@ export default function SignUp() {
   }
 
   return (
-    <div>
-      <Paper style={{ width: 500, margin: '24px auto', padding: 24 }}>
+    <div style={{ width: 500, margin: '24px auto' }}>
+      <Paper style={{ padding: 24 }} square>
+        <h1>Sports App</h1>
         <form onSubmit={handleSubmit}>
           <TextField
             {...firstname}
@@ -78,11 +82,13 @@ export default function SignUp() {
             <MenuItem value="female">Female</MenuItem>
           </TextField>
 
+          <br /><br />
           <Button variant="contained" color="primary" type="submit">
             Signup
           </Button>
         </form>
       </Paper>
+      {/* {!register.data || register.isLoading ? <LinearProgress /> : null} */}
     </div>
   )
 }
