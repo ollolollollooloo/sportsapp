@@ -6,9 +6,9 @@ import {
     Button
 } from '@material-ui/core';
 
-export default function SignIn() {
-    const username = UseFormInput('');
-    const password = UseFormInput('');
+export default function SignUp() {
+    const firstname = UseFormInput('');
+    const lastname = UseFormInput('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -21,10 +21,25 @@ export default function SignIn() {
             <Paper style={{ width: 500, margin: '24px auto', padding: 24 }}>
                 <form onSubmit={handleSubmit}>
                     <TextField
-                        {...username}
-                        id="username"
-                        label="Username"
+                        {...firstname}
+                        id="firstname"
+                        label="Firstname"
                         margin="normal"
+                        fullWidth
+                    />
+                    <TextField
+                        {...lastname}
+                        id="lastname"
+                        label="Lastname"
+                        margin="normal"
+                        fullWidth
+                    />
+                    <TextField
+                        {...email}
+                        id="email"
+                        label="Email"
+                        margin="normal"
+                        type="email"
                         fullWidth
                     />
                     <TextField
@@ -36,7 +51,7 @@ export default function SignIn() {
                         fullWidth
                     />
                     <Button variant="contained" color="primary" type="submit">
-                        Signin
+                        Signup
                     </Button>
                 </form>
             </Paper>
