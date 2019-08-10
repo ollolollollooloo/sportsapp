@@ -1,9 +1,11 @@
 import React from 'react';
-import SignIn from './components/SignIn';
+import Main from './components/Main';
 
 function App() {
   return (
-    <SignIn />
+    <div>
+      <Main />
+    </div>
   );
 }
 

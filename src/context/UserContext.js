@@ -1,8 +1,10 @@
 import React, { useState, createContext } from 'react';
 
+// eslint-disable-next-line
 export const UserContext = createContext();
 
 export const UserProvider = props => {
+    // eslint-disable-next-line
     const [users, setUsers] = useState([
         {
             name: 'John Doe',
