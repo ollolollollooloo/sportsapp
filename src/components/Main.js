@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Container from '@material-ui/core/Container'
+import IdleTimer from 'react-idle-timer'
 
 // eslint-disable-next-line
 import { makeStyles } from '@material-ui/core/styles'
@@ -41,18 +42,33 @@ class Main extends Component {
     super(props)
 
     this.state = {
-      process: false
+      isloggedin: false,
+	  // activity
+	  timeout: 1000 * 60 * 60, // timeout in 60 mins
     }
 
     this.checkAuthorization = this.checkAuthorization.bind(this)
+
+    // activity
+    this.idleTimer = null
+    this.onAction = this._onAction.bind(this)
+    this.onActive = this._onActive.bind(this)
+    this.onIdle = this._onIdle.bind(this)
   }
 
-  UNSAFE_componentWillMount() {
+  _onAction(e) {
+    // console.log('user did something', e)
     this.checkAuthorization()
-
   }
-
-  componentDidMount() {
+ 
+  _onActive(e) {
+    console.log('user is active', e)
+    console.log('time remaining', this.idleTimer.getRemainingTime())
+  }
+ 
+  _onIdle(e) {
+    console.log('user is idle', e)
+    console.log('last active', this.idleTimer.getLastActiveTime())
   }
 
   checkAuthorization() {
@@ -64,20 +80,23 @@ class Main extends Component {
       if (Date.now() >= decoded.exp * 1000) {
         console.log('Token expired')
         // request token create
-        // localStorage.removeItem("sportsapp-token")
-        // window.location.replace("/signin")
-      } else {
-        console.log('Token still active')
-        if (url === 'signin' || url === 'signup') {
-          console.log('go to dashboard')
-          window.location.replace("/dashboard")
-        }
-      }
-    } else {
-      if (url !== 'signin' && url !== 'signup') {
-        console.log('go to signin')
+        localStorage.removeItem("sportsapp-token")
+		this.setState({isloggedin:false})
         window.location.replace("/signin")
+      }else{
+        console.log('Token still active')
+		if(url === 'signin' || url === 'signup' ){
+			console.log('go to dashboard')
+			this.setState({isloggedin:true})
+			window.location.replace("/dashboard")
+		}
       }
+    }else{
+		if(url !== 'signin' && url !== 'signup' ){
+			console.log('go to signin')
+			this.setState({isloggedin:false})
+			window.location.replace("/signin")
+		}
     }
   }
 

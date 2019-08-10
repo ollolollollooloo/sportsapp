@@ -7,12 +7,9 @@ import {
     Typography,
     Badge
 } from '@material-ui/core';
-import {
-    Person
-} from '@material-ui/icons';
 import basketballImg from '../img/basketball.jpg';
 
-export default function RoomCard() {
+export default function RoomCard(props) {
     return (
         <Card>
             <CardActionArea>
@@ -25,15 +22,13 @@ export default function RoomCard() {
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
-                        Basketball <Badge badgeContent={4} color="primary">
-                        <Person />
-                    </Badge>
+                        {props.sport}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
-                        Date
+                        {props.game_date}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
-                        Address
+                        {props.game_location_address}
                     </Typography>
                 </CardContent>
             </CardActionArea>

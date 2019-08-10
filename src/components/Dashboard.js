@@ -6,20 +6,19 @@ import Rooms from './Rooms';
 
 const useFetch = (url, options) => {
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData(url, options) {
       const response = await fetch(url, options);
-      const data = await response.json();
-      const [item] = data.results;
-      setData(item);
+      const result = await response.json();
+      setData(result[0].rooms);
       setLoading(false);
     }
     fetchData(url, options);
   }, []);
 
-  return { data, loading };
+  return { data, isLoading };
 };
 
 function rand() {
@@ -87,6 +86,7 @@ export default function Dashboard() {
   const game_date = UseFormInput('');
   const game_location_address = UseFormInput('');
   const number_of_players = UseFormInput('');
+  const sport = UseFormInput('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -99,14 +99,15 @@ export default function Dashboard() {
 
     let body = {
       "room_name": name.value,
-      "sport": "basketball",
+      "sport": sport,
       "location_coordinates": 'cebu',
       "location_address": game_location_address.value,
       "game_date": game_date.value,
       "emails": "AleksanderAndersen@armyspy.com",
       "room_role": 'admin',
       "members": [],
-      "number_of_players": 0
+      "number_of_players": 0,
+      "owner_id": 1
     }
 
     axios.post(domain + "/room", { body }, { "headers": headers })
@@ -127,7 +128,7 @@ export default function Dashboard() {
   const rooms = useFetch(URL, options);
 
   return (
-    <div>
+    <div style={{ marginTop: 24 }}>
       <Rooms {...rooms} />
     </div>
   )

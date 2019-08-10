@@ -1,24 +1,30 @@
 import React from 'react';
 import RoomCard from './RoomCard';
 import {
-    Grid
+    Grid,
+    CircularProgress,
+    Typography
 } from '@material-ui/core';
 
-export default function Rooms(props) {
-    console.log(props);
+export default function Rooms({ data, isLoading }) {
+    if (isLoading) {
+        return <div style={{textAlign: "center"}}><CircularProgress /></div>
+    }
+
     return (
         <div>
-            <Grid container spacing={3}>
-                <Grid item xs={12} sm={4}>
-                    <RoomCard />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                    <RoomCard />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                    <RoomCard />
-                </Grid>
-            </Grid>
+            <Typography variant="h4" gutterBottom>
+        Rooms
+      </Typography>
+        <Grid container spacing={3}>
+            {data && data.length ? (
+                data.map((item, i) => (
+                    <Grid item xs={12} sm={4} key={i}>
+                        <RoomCard {...item} />
+                    </Grid>
+                ))
+            ) : 'No data'}
+        </Grid>
         </div>
     )
 }
