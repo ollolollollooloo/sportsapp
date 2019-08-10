@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {TableRow,TableBody, TableCell, TableHead, Paper, Table, Button} from '@material-ui/core';
 import axios from 'axios'
-import GetRoom from '../customhooks/GetRoom'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,21 +18,28 @@ function createData(dire, sentinel) {
   return { dire, sentinel};
 }
 
-function getroom(e) {
+const rooms = []
 
- let domain = "https://52a7kim1n2.execute-api.us-east-1.amazonaws.com/hackathon/v1"
+function getRoom(){
+  const rooms = []
 
- let headers = {
+
+  let id = window.location.pathname.split('/')[2]
+
+  let domain = "https://52a7kim1n2.execute-api.us-east-1.amazonaws.com/hackathon/v1"
+
+  let headers = {
      "Authorization": "Bearer "+localStorage.getItem("sportsapp-token")
- }
+  }
 
- let id = 1
+  axios.get(domain+'/room/'+id+'/show', {"headers": headers}).then(function (response) {
+    console.log(response.data)
+    const rooms = response.data[0].rooms
+  }).catch(function (error) {
+    console.log(error.response)
+  })
 
- axios.get(domain+'/room/'+id+'/show', {}, {"headers": headers}).then(function (response) {
-   console.log(response.data)
- }).catch(function (error) {
-   console.log(error.response)
- })
+  return rooms
 }
 
 const members = [
@@ -46,15 +52,36 @@ const members = [
 
 export default function Room() {
   const classes = useStyles()
+  const g = getRoom()
+  console.log(g)
 
-  getroom()
+  const handleSubmit = (e) => {
+      const rooms = []
 
+
+      let id = window.location.pathname.split('/')[2]
+
+      let domain = "https://52a7kim1n2.execute-api.us-east-1.amazonaws.com/hackathon/v1"
+
+      let headers = {
+         "Authorization": "Bearer "+localStorage.getItem("sportsapp-token")
+      }
+
+      axios.get(domain+'/room/'+id+'/show', {"headers": headers}).then(function (response) {
+        console.log(response.data)
+        const rooms = response.data[0].rooms
+      }).catch(function (error) {
+        console.log(error.response)
+      })
+
+  }
+  
   return(
     <Paper className={classes.root}>
-      <h1>Basketball game!</h1>
-      Address: cebu <br/>
-      Sport: Basketball <br/>
-      Date: August 1, 2019 <br/>
+      <h1>&nbsp;{rooms.room_name}</h1>
+      Address: {rooms.game_location_address} <br/>
+      Sport: {rooms.basketball} <br/>
+      Date: {rooms.august} <br/>
 
       <Table className={classes.table}>
         <TableHead>

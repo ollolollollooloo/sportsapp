@@ -79,10 +79,9 @@ export default function Dashboard() {
   const name = UseFormInput('');
   const game_date = UseFormInput('');
   const game_location_address = UseFormInput('');
-  const number_of_players = UseFormInput('');
   const sport = UseFormInput('');
 
-  const handleSubmit = (e) => {
+  const createRoom = (e) => {
     e.preventDefault();
     //eg.name.value
 
@@ -93,7 +92,7 @@ export default function Dashboard() {
 
     let body = {
       "room_name": name.value,
-      "sport": sport,
+      "sport": sport.value,
       "location_coordinates": 'cebu',
       "location_address": game_location_address.value,
       "game_date": game_date.value,
@@ -106,17 +105,17 @@ export default function Dashboard() {
 
     axios.post(domain+"/room", {room:body}, {"headers": headers})
     .then(function (response) {
-      window.location.replace("/room/1")
+      window.location.replace("/room/"+response.data.data.room_id)
       console.log(response.data)
-    }.bind(this)).catch(function (error) {
+    }).catch(function (error) {
       console.log(error.response)
-    }.bind(this))
+    })
   }
 
   return(
     <>
       <Paper className={classes.root}>
-        <h1>  Rooms</h1>
+        <h1> &nbsp; Rooms</h1>
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
@@ -143,7 +142,7 @@ export default function Dashboard() {
         </Table>
       </Paper>
       <Paper className={classes.root}>
-        <h1>  My Rooms <Button variant="outlined" onClick={handleOpen} className={classes.button}>Create a room</Button></h1>
+        <h1> &nbsp; My Rooms <Button variant="outlined" onClick={handleOpen} className={classes.button}>Create a room</Button></h1>
 
         <Modal
           aria-labelledby="simple-modal-title"
@@ -156,7 +155,7 @@ export default function Dashboard() {
             <p id="simple-modal-description">
               Be nice to other players.
             </p>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={createRoom}>
               <TextField
                 {...name}
                 id="name"

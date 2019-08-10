@@ -21,9 +21,9 @@ export default function SignIn() {
           localStorage.setItem("auth-refresh-token", response.data.refreshToken)
           window.location.replace("/dashboard")
           console.log(response.data)
-        }.bind(this)).catch(function (error) {
+        }).catch(function (error) {
           console.log(error.response)
-        }.bind(this))
+        })
     }
 
     return (

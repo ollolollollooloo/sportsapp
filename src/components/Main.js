@@ -114,7 +114,7 @@ class Main extends Component {
             debounce={250}
             timeout={this.state.timeout} />
           <Router>
-            <Header isloggedin={isloggedin} />
+            <Header isloggedin={this.state.isloggedin} />
             <main>
               <Switch>
                 <Route path="/" exact={true} component={Home} />
