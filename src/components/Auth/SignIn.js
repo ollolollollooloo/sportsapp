@@ -12,10 +12,6 @@ class SignIn extends Component {
   componentDidMount(){
   }
 
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-
   render() {
       return(
        <div>

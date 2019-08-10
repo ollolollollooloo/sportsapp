@@ -1,16 +1,27 @@
+import React , { Component } from 'react'
+
+// eslint-disable-next-line
 import { makeStyles } from '@material-ui/core/styles'
+// eslint-disable-next-line
 import {
+// eslint-disable-next-line
     AppBar,
+// eslint-disable-next-line
     Toolbar,
+// eslint-disable-next-line
     IconButton,
+// eslint-disable-next-line
     Typography,
+// eslint-disable-next-line
     Button
 } from '@material-ui/core'
+// eslint-disable-next-line
 import MenuIcon from '@material-ui/icons/Menu'
 
-import React , { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+// eslint-disable-next-line
 import axios from 'axios'
+// eslint-disable-next-line
 import jwtDecode from 'jwt-decode'
 
 // User
@@ -57,10 +68,6 @@ class Main extends Component {
         console.log('Token still active')
       }
     }
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
   }
 
   render() {
