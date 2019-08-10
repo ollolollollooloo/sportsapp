@@ -1,13 +1,20 @@
 import React from 'react';
-import UseFormInput from '../../customhooks/UseFormInput';
+import {
+  UseFormInput,
+  UseFetchApi
+} from '../../customhooks';
 import {
   Paper,
   TextField,
   Button,
-  MenuItem
+  MenuItem,
+  LinearProgress
 } from '@material-ui/core';
 
 export default function SignUp() {
+  const URL = "https://jsonplaceholder.typicode.com/todos/1";
+  const register = UseFetchApi({ isLoading: true, data: null });
+
   const firstname = UseFormInput('');
   const lastname = UseFormInput('');
   const password = UseFormInput('');
@@ -16,12 +23,11 @@ export default function SignUp() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //eg.firstname.value
   }
 
   return (
-    <div>
-      <Paper style={{ width: 500, margin: '24px auto', padding: 24 }}>
+    <div style={{ width: 500, margin: '24px auto' }}>
+      <Paper style={{ padding: 24 }} square>
         <form onSubmit={handleSubmit}>
           <TextField
             {...firstname}
@@ -64,11 +70,14 @@ export default function SignUp() {
             <MenuItem value="Male">Male</MenuItem>
             <MenuItem value="Female">Female</MenuItem>
           </TextField>
-          <Button variant="contained" color="primary" type="submit">
+
+          <br /><br />
+          <Button variant="contained" color="primary" type="submit" disabled={!register.data || register.isLoading}>
             Signup
-                    </Button>
+          </Button>
         </form>
       </Paper>
+      {!register.data || register.isLoading ? <LinearProgress /> : null}
     </div>
   )
 }
