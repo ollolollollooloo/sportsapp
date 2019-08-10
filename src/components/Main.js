@@ -47,7 +47,7 @@ class Main extends Component {
     this.checkAuthorization = this.checkAuthorization.bind(this)
   }
 
-  componentWillMount(){
+  UNSAFE_componentWillMount(){
   	this.checkAuthorization()
    
   }
