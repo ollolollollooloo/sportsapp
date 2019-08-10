@@ -80,6 +80,7 @@ export default function Dashboard() {
   const game_date = UseFormInput('');
   const game_location_address = UseFormInput('');
   const number_of_players = UseFormInput('');
+  const sport = UseFormInput('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -92,17 +93,18 @@ export default function Dashboard() {
 
     let body = {
       "room_name": name.value,
-      "sport": "basketball",
+      "sport": sport,
       "location_coordinates": 'cebu',
       "location_address": game_location_address.value,
       "game_date": game_date.value,
       "emails": "AleksanderAndersen@armyspy.com",
       "room_role": 'admin',
       "members": [],
-      "number_of_players": 0
+      "number_of_players": 0,
+      "owner_id": 1
     }
 
-    axios.post(domain+"/room", {body}, {"headers": headers})
+    axios.post(domain+"/room", {room:body}, {"headers": headers})
     .then(function (response) {
       window.location.replace("/room/1")
       console.log(response.data)
@@ -162,6 +164,21 @@ export default function Dashboard() {
                 margin="normal"
                 fullWidth
               />
+              <TextField
+                {...sport}
+                id="standard-select-currency"
+                select
+                label="Sport"
+                margin="normal"
+                fullWidth
+              >
+                <MenuItem value="basketball">Basketball</MenuItem>
+                <MenuItem value="badminton">Badminton</MenuItem>
+                <MenuItem value="soccer">Soccer</MenuItem>
+                <MenuItem value="tennis">Tennis</MenuItem>
+                <MenuItem value="volleyball">Volleyball</MenuItem>
+              </TextField>
+
               <TextField
                 {...game_date}
                 id="game_date"

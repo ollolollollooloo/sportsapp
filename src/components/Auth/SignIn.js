@@ -13,8 +13,6 @@ export default function SignIn() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(username.value);
-        console.log(password.value)
         let domain = "https://52a7kim1n2.execute-api.us-east-1.amazonaws.com/hackathon/v1/user"
 
         axios.post(domain+'/login?email='+username.value+'&password='+password.value, {})
