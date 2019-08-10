@@ -56,6 +56,8 @@ class Main extends Component {
   }
 
   checkAuthorization(){
+	let url = window.location.pathname.split('/')[1].split('-').join('_')
+
     if(localStorage.getItem("sportsapp-token")){
       let token = localStorage.getItem("sportsapp-token")
       let decoded = jwtDecode(token)
@@ -63,10 +65,19 @@ class Main extends Component {
         console.log('Token expired')
         // request token create
         // localStorage.removeItem("sportsapp-token")
-        // window.location.replace("/login")
+        // window.location.replace("/signin")
       }else{
         console.log('Token still active')
+		if(url === 'signin' || url === 'signup' ){
+			console.log('go to dashboard')
+			window.location.replace("/dashboard")
+		}
       }
+    }else{
+		if(url !== 'signin' && url !== 'signup' ){
+			console.log('go to signin')
+			window.location.replace("/signin")
+		}
     }
   }
 

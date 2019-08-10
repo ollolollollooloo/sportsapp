@@ -85,18 +85,24 @@ export default function Dashboard() {
     e.preventDefault();
     //eg.name.value
 
-    let owner_id = 1
-    let room_role = 'admin'
-    let game_location = 'cebu'
-    let members = []
-    let number_of_players = 0
-
     let domain = "https://52a7kim1n2.execute-api.us-east-1.amazonaws.com/hackathon/v1"
     let headers = {
         "Authorization": "Bearer "+localStorage.getItem("sportsapp-token")
     }
 
-    axios.post(domain+'/room?room_name='+name.value+'&room_role='+room_role+'&game_date='+game_date.value+'&game_location_address='+game_location_address.value+'&game_location='+game_location+"&number_of_players="+number_of_players, {}, {"headers": headers})
+    let body = {
+      "room_name": name.value,
+      "sport": "basketball",
+      "location_coordinates": 'cebu',
+      "location_address": game_location_address.value,
+      "game_date": game_date.value,
+      "emails": "AleksanderAndersen@armyspy.com",
+      "room_role": 'admin',
+      "members": [],
+      "number_of_players": 0
+    }
+
+    axios.post(domain+"/room", {body}, {"headers": headers})
     .then(function (response) {
       window.location.replace("/room/1")
       console.log(response.data)
