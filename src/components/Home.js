@@ -9,7 +9,7 @@ class Home extends Component {
     }
   }
 
-  componentDidMount(){
+  UNSAFE_componentWillMount(){
   }
 
   render() {

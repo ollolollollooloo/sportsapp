@@ -4,7 +4,8 @@ import {
     Paper,
     TextField,
     Button
-} from '@material-ui/core';
+} from '@material-ui/core'
+import axios from 'axios'
 
 export default function SignIn() {
     const username = UseFormInput('');
@@ -13,7 +14,18 @@ export default function SignIn() {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(username.value);
-        console.log(password.value);
+        console.log(password.value)
+        let domain = "https://52a7kim1n2.execute-api.us-east-1.amazonaws.com/hackathon/v1/user"
+
+        axios.post(domain+'/login?email='+username.value+'&password='+password.value, {})
+        .then(function (response) {
+          localStorage.setItem("sportsapp-token", response.data.token)
+          localStorage.setItem("auth-refresh-token", response.data.refreshToken)
+          window.location.replace("/dashboard")
+          console.log(response.data)
+        }).catch(function (error) {
+          console.log(error.response)
+        })
     }
 
     return (

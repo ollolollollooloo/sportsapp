@@ -1,19 +1,21 @@
-import React , { Component } from 'react'
+import React, { Component } from 'react'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import Container from '@material-ui/core/Container'
 
 // eslint-disable-next-line
 import { makeStyles } from '@material-ui/core/styles'
 // eslint-disable-next-line
 import {
-// eslint-disable-next-line
-    AppBar,
-// eslint-disable-next-line
-    Toolbar,
-// eslint-disable-next-line
-    IconButton,
-// eslint-disable-next-line
-    Typography,
-// eslint-disable-next-line
-    Button
+  // eslint-disable-next-line
+  AppBar,
+  // eslint-disable-next-line
+  Toolbar,
+  // eslint-disable-next-line
+  IconButton,
+  // eslint-disable-next-line
+  Typography,
+  // eslint-disable-next-line
+  Button
 } from '@material-ui/core'
 // eslint-disable-next-line
 import MenuIcon from '@material-ui/icons/Menu'
@@ -25,16 +27,14 @@ import axios from 'axios'
 import jwtDecode from 'jwt-decode'
 
 // User
-import Header from './Header' 
-import Footer from './Footer' 
-import Home from './Home' 
-import Dashboard from './Dashboard' 
+import Header from './Header'
+import Home from './Home'
+import Dashboard from './Dashboard'
+import Room from './Room'
 
 // Auth routes
-import SignIn from './Auth/SignIn' 
-import SignUp from './Auth/SignUp' 
-// import ForgotPassword from './Auth/ForgotPassword'
-// import ResetPassword from './Auth/ResetPassword'
+import SignIn from './Auth/SignIn'
+import SignUp from './Auth/SignUp'
 
 class Main extends Component {
   constructor(props) {
@@ -47,46 +47,60 @@ class Main extends Component {
     this.checkAuthorization = this.checkAuthorization.bind(this)
   }
 
-  componentWillMount(){
-  	this.checkAuthorization()
-   
+  UNSAFE_componentWillMount() {
+    this.checkAuthorization()
+
   }
 
-  componentDidMount(){
+  componentDidMount() {
   }
 
-  checkAuthorization(){
-    if(localStorage.getItem("sportsapp-token")){
+  checkAuthorization() {
+    let url = window.location.pathname.split('/')[1].split('-').join('_')
+
+    if (localStorage.getItem("sportsapp-token")) {
       let token = localStorage.getItem("sportsapp-token")
       let decoded = jwtDecode(token)
       if (Date.now() >= decoded.exp * 1000) {
-        // console.log('Token expired')
+        console.log('Token expired')
         // request token create
-        localStorage.removeItem("sportsapp-token")
-        window.location.replace("/login")
-      }else{
+        // localStorage.removeItem("sportsapp-token")
+        // window.location.replace("/signin")
+      } else {
         console.log('Token still active')
+        if (url === 'signin' || url === 'signup') {
+          console.log('go to dashboard')
+          window.location.replace("/dashboard")
+        }
+      }
+    } else {
+      if (url !== 'signin' && url !== 'signup') {
+        console.log('go to signin')
+        window.location.replace("/signin")
       }
     }
   }
 
   render() {
-      return(
+    return (
       <div>
-          <Router>
-            <Header />
+        <CssBaseline />
+        <Router>
+          <Header />
+          <Container fixed>
             <main>
               <Switch>
                 <Route path="/" exact={true} component={Home} />
                 <Route path="/dashboard" exact={true} component={Dashboard} />
+                <Route path="/room/:id" exact={true} component={Room} />
                 <Route path="/signin" exact={true} component={SignIn} />
                 <Route path="/signup" exact={true} component={SignUp} />
               </Switch>
             </main>
-            <Footer />
-          </Router>
+          </Container>
+        </Router>
       </div>
-      )
+    )
   }
 }
 

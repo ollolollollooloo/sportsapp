@@ -1,20 +1,17 @@
 import React from 'react';
 import {
-  UseFormInput,
-  UseFetchApi
+  UseFormInput
 } from '../../customhooks';
 import {
   Paper,
   TextField,
   Button,
   MenuItem,
-  LinearProgress
+  //LinearProgress
 } from '@material-ui/core';
+import axios from 'axios'
 
 export default function SignUp() {
-  const URL = "https://jsonplaceholder.typicode.com/todos/1";
-  const register = UseFetchApi({ isLoading: true, data: null });
-
   const firstname = UseFormInput('');
   const lastname = UseFormInput('');
   const password = UseFormInput('');
@@ -23,6 +20,19 @@ export default function SignUp() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    //eg.firstname.value
+
+    let domain = "https://52a7kim1n2.execute-api.us-east-1.amazonaws.com/hackathon/v1/user"
+
+    axios.post(domain+'/register?first_name='+firstname.value+'&last_name='+lastname.value+'&email='+email.value+'&gender='+gender.value+'&password='+password.value, {})
+    .then(function (response) {
+      localStorage.setItem("sportsapp-token", response.data.token)
+      localStorage.setItem("auth-refresh-token", response.data.refreshToken)
+      window.location.replace("/dashboard")
+      console.log(response.data)
+    }.bind(this)).catch(function (error) {
+      console.log(error.response)
+    }.bind(this))
   }
 
   return (
@@ -67,17 +77,17 @@ export default function SignUp() {
             margin="normal"
             fullWidth
           >
-            <MenuItem value="Male">Male</MenuItem>
-            <MenuItem value="Female">Female</MenuItem>
+            <MenuItem value="male">Male</MenuItem>
+            <MenuItem value="female">Female</MenuItem>
           </TextField>
 
           <br /><br />
-          <Button variant="contained" color="primary" type="submit" disabled={!register.data || register.isLoading}>
+          <Button variant="contained" color="primary" type="submit">
             Signup
           </Button>
         </form>
       </Paper>
-      {!register.data || register.isLoading ? <LinearProgress /> : null}
+      {/* {!register.data || register.isLoading ? <LinearProgress /> : null} */}
     </div>
   )
 }

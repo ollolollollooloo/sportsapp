@@ -10,7 +10,7 @@ class Header extends Component {
     }
   }
 
-  componentDidMount(){
+  UNSAFE_componentWillMount(){
   }
 
   render() {
