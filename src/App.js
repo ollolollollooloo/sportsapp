@@ -1,12 +1,9 @@
 import React from 'react';
-import { UserProvider } from './context/UserContext';
-import UsesList from './components/UsersList';
+import SignIn from './components/SignIn';
 
 function App() {
   return (
-    <UserProvider>
-      <UsesList />
-    </UserProvider>
+    <SignIn />
   );
 }
 
