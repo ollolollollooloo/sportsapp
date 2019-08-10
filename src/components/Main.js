@@ -1,4 +1,6 @@
 import React , { Component } from 'react'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import Container from '@material-ui/core/Container'
 
 // eslint-disable-next-line
 import { makeStyles } from '@material-ui/core/styles'
@@ -26,15 +28,13 @@ import jwtDecode from 'jwt-decode'
 
 // User
 import Header from './Header' 
-import Footer from './Footer' 
 import Home from './Home' 
 import Dashboard from './Dashboard' 
+import Room from './Room' 
 
 // Auth routes
 import SignIn from './Auth/SignIn' 
 import SignUp from './Auth/SignUp' 
-// import ForgotPassword from './Auth/ForgotPassword'
-// import ResetPassword from './Auth/ResetPassword'
 
 class Main extends Component {
   constructor(props) {
@@ -60,10 +60,10 @@ class Main extends Component {
       let token = localStorage.getItem("sportsapp-token")
       let decoded = jwtDecode(token)
       if (Date.now() >= decoded.exp * 1000) {
-        // console.log('Token expired')
+        console.log('Token expired')
         // request token create
-        localStorage.removeItem("sportsapp-token")
-        window.location.replace("/login")
+        // localStorage.removeItem("sportsapp-token")
+        // window.location.replace("/login")
       }else{
         console.log('Token still active')
       }
@@ -73,18 +73,21 @@ class Main extends Component {
   render() {
       return(
       <div>
+      	<CssBaseline />
+  		<Container fixed>
           <Router>
             <Header />
             <main>
               <Switch>
                 <Route path="/" exact={true} component={Home} />
                 <Route path="/dashboard" exact={true} component={Dashboard} />
+                <Route path="/room/:id" exact={true} component={Room} />
                 <Route path="/signin" exact={true} component={SignIn} />
                 <Route path="/signup" exact={true} component={SignUp} />
               </Switch>
             </main>
-            <Footer />
           </Router>
+  		</Container>
       </div>
       )
   }
